@@ -1,0 +1,10 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             x:Class="DndHelper.App.View.Panels.EncounterTrackerPanelView"
+             x:DataType="vm:EncounterTrackerPanelViewModel">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+        <TextBlock Text="Encounter Tracker" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" />
+        <TextBlock Text="Initiative order and turns will appear here (M5)." Opacity="0.7" HorizontalAlignment="Center" />
+    </StackPanel>
+</UserControl>

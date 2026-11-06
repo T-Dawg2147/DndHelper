@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="DndHelper.App/DndHelper.App.csproj" />
+  <Project Path="DndHelper.Core/DndHelper.Core.csproj" />
+  <Project Path="DndHelper.Data/DndHelper.Data.csproj" />
+  <Project Path="DndHelper.Tests/DndHelper.Tests.csproj" />
+</Solution>

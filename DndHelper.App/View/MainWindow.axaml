@@ -1,0 +1,19 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DndHelper.App.ViewModels"
+        x:Class="DndHelper.App.View.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="{Binding Title}"
+        Width="1400" Height="800"
+        WindowStartupLocation="CenterScreen">
+    
+        <DockPanel>
+                <Menu DockPanel.Dock="Top">
+                        <MenuItem Header="_View">
+                                <MenuItem Header="_Reset Layout" Command="{Binding ResetLayoutCommand}" />
+                        </MenuItem>
+                </Menu>
+                
+                <DockControl Layout="{Binding Layout}" />
+        </DockPanel>
+</Window>

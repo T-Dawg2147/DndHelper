@@ -1,0 +1,10 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             x:Class="DndHelper.App.View.Panels.CreatureDetailsPanelView"
+             x:DataType="vm:CreatureDetailsPanelViewModel">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
+        <TextBlock Text="Creature Details" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" />
+        <TextBlock Text="Stat blocks and character sheets will appear here (M1/M3)." Opacity="0.7" HorizontalAlignment="Center"/>
+    </StackPanel>
+</UserControl>
