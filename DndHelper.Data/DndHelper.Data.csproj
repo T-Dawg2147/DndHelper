@@ -16,9 +16,4 @@
     <ProjectReference Include="..\DndHelper.Core\DndHelper.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Open5e\" />
-  </ItemGroup>
-
 </Project>

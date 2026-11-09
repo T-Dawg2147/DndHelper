@@ -4,6 +4,8 @@ using Avalonia.Markup.Xaml;
 using DndHelper.App.Docking;
 using DndHelper.App.View;
 using DndHelper.App.ViewModels;
+using DndHelper.Core.Services;
+using DndHelper.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -26,7 +28,8 @@ public class App : Application
             .Build();
 
         Services = _host.Services;
-
+        Services.GetRequiredService<IContentStore>().Initialize();
+        
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow()
@@ -41,6 +44,7 @@ public class App : Application
 
     private static void ConfigureServices(IServiceCollection services)
     {
+        services.AddDndHelperData();
         services.AddSingleton<DockFactory>();
         services.AddSingleton<MainWindowViewModel>();
     }

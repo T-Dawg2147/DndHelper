@@ -1,10 +1,112 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             xmlns:models="using:DndHelper.Core.Models"
              x:Class="DndHelper.App.View.Panels.CreatureDetailsPanelView"
              x:DataType="vm:CreatureDetailsPanelViewModel">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
-        <TextBlock Text="Creature Details" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" />
-        <TextBlock Text="Stat blocks and character sheets will appear here (M1/M3)." Opacity="0.7" HorizontalAlignment="Center"/>
-    </StackPanel>
+
+  <ScrollViewer>
+    <Panel>
+      <TextBlock Text="Select a creature in the Creatures panel."
+                 IsVisible="{Binding !HasCreature}"
+                 Opacity="0.7" Margin="16" HorizontalAlignment="Center" />
+
+      <StackPanel IsVisible="{Binding HasCreature}" Margin="16" Spacing="8">
+        <StackPanel>
+          <TextBlock Text="{Binding Creature.Name}" FontSize="24" FontWeight="Bold" TextWrapping="Wrap" />
+          <TextBlock Text="{Binding Creature.Subtitle}" FontStyle="Italic" Opacity="0.8" />
+        </StackPanel>
+
+        <Separator />
+
+        <TextBlock>
+          <Run Text="Armor Class" FontWeight="Bold" />
+          <Run Text="{Binding Creature.ArmorClassText}" />
+        </TextBlock>
+        <TextBlock>
+          <Run Text="Hit Points" FontWeight="Bold" />
+          <Run Text="{Binding Creature.HitPointsText}" />
+        </TextBlock>
+        <TextBlock>
+          <Run Text="Challenge" FontWeight="Bold" />
+          <Run Text="{Binding Creature.ChallengeText}" />
+        </TextBlock>
+
+        <Separator />
+
+        <ItemsControl ItemsSource="{Binding Creature.AbilitiesDisplays}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <UniformGrid Columns="6" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:AbilitiesDisplay">
+              <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Abbreviation}" FontWeight="Bold" HorizontalAlignment="Center" />
+                <TextBlock HorizontalAlignment="Center">
+                  <Run Text="{Binding Score}" />
+                  <Run Text="{Binding Modifier, StringFormat='({0})'}" />
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Center" FontSize="12" Opacity="0.75">
+                  <Run Text="Save" />
+                  <Run Text="{Binding Save}" />
+                </TextBlock>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Separator />
+
+        <ItemsControl ItemsSource="{Binding Creature.Properties}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:LabelValue">
+              <TextBlock TextWrapping="Wrap" Margin="0,1">
+                <Run Text="{Binding Label}" FontWeight="Bold" />
+                <Run Text="{Binding Value}" />
+              </TextBlock>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Text="Traits" FontSize="18" FontWeight="SemiBold" Margin="0,8,0,0"
+                   IsVisible="{Binding Creature.HasTraits}" />
+        <ItemsControl ItemsSource="{Binding Creature.Traits}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:NamedEntry">
+              <TextBlock TextWrapping="Wrap" Margin="0,3">
+                <Run Text="{Binding Name}" FontWeight="Bold" FontStyle="Italic" />
+                <Run Text="{Binding Description}" />
+              </TextBlock>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ItemsControl ItemsSource="{Binding Creature.ActionGroups}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:ActionGroup">
+              <StackPanel Margin="0,8,0,0">
+                <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="SemiBold" />
+                <ItemsControl ItemsSource="{Binding Entries}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:ActionEntry">
+                      <TextBlock TextWrapping="Wrap" Margin="0,3">
+                        <Run Text="{Binding Name}" FontWeight="Bold" FontStyle="Italic" />
+                        <Run Text="{Binding Description}" />
+                      </TextBlock>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Text="{Binding Creature.SourceName, StringFormat='Source: {0}'}"
+                   Opacity="0.55" FontSize="12" Margin="0,12,0,0" />
+      </StackPanel>
+    </Panel>
+  </ScrollViewer>
+
 </UserControl>

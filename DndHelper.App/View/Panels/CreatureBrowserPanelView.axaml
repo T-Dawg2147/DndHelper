@@ -1,0 +1,32 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             xmlns:models="using:DndHelper.Core.Models"
+             x:Class="DndHelper.App.View.Panels.CreatureBrowserPanelView"
+             x:DataType="vm:CreatureBrowserPanelViewModel">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Margin="8">
+        <TextBox Grid.Row="0" Text="{Binding SearchText}" PlaceholderText="Search creatures..." />
+        
+        <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,6" ColumnSpacing="6">
+            <ComboBox Grid.Column="0" HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" />
+            <NumericUpDown Grid.Column="1" Width="120" Minimum="0" Maximum="30" Increment="1"
+                           FormatString="0.###" PlaceholderText="Max CR" Value="{Binding MinChallengeRating}" />
+            <NumericUpDown Grid.Column="2" Width="120" Minimum="0" Maximum="30" Increment="1"
+                           FormatString="0.###" PlaceholderText="Max CR" Value="{Binding MaxChallengeRating}" />
+        </Grid>
+        
+        <ListBox Grid.Row="2" ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedCreature}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:CreatureSummary">
+                    <StackPanel Margin="2,3">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding Subtitle}" Opacity="0.65" FontSize="12" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <TextBlock Grid.Row="3" Text="{Binding ResultText}" Opacity="0.65" Margin="0,6,0,0" />
+    </Grid>
+</UserControl>

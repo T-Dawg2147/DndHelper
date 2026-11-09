@@ -1,27 +1,35 @@
-﻿using DndHelper.App.ViewModels.Panels;
-using Dock.Avalonia.Controls;
+﻿using Dock.Avalonia.Controls;
 using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.Mvvm;
 using Dock.Model.Mvvm.Controls;
+using DndHelper.App.ViewModels.Panels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DndHelper.App.Docking;
 
-public class DockFactory : Factory
+/// <summary>
+/// Builds the default dock layout and wires up floating (undocked) windows.
+/// Any panel can be dragged out of the main window onto another monitor.
+/// </summary>
+public class DockFactory(IServiceProvider services) : Factory
 {
     public override IRootDock CreateLayout()
     {
+        var creatures = ActivatorUtilities.CreateInstance<CreatureBrowserPanelViewModel>(services);
+        var spells = ActivatorUtilities.CreateInstance<SpellBrowserPanelViewModel>(services);
+        var creatureDetails = ActivatorUtilities.CreateInstance<CreatureDetailsPanelViewModel>(services);
+        var spellDetails = ActivatorUtilities.CreateInstance<SpellDetailsPanelViewModel>(services);
         var map = new MapPanelViewModel();
-        var details = new CreatureDetailsPanelViewModel();
         var tracker = new EncounterTrackerPanelViewModel();
         var log = new BattleLogPanelViewModel();
 
-        var detailsDock = new ToolDock()
+        var browserDock = new ToolDock
         {
-            Id = "DetailsDock",
-            Proportion = 0.22,
-            ActiveDockable = details,
-            VisibleDockables = CreateList<IDockable>(details),
+            Id = "BrowserDock",
+            Proportion = 0.24,
+            ActiveDockable = creatures,
+            VisibleDockables = CreateList<IDockable>(creatures, spells),
             Alignment = Alignment.Left
         };
 
@@ -34,12 +42,12 @@ public class DockFactory : Factory
             CanCreateDocument = false
         };
 
-        var trackerDock = new ToolDock
+        var detailsDock = new ToolDock
         {
-            Id = "TrackerDock",
-            Proportion = 0.22,
-            ActiveDockable = tracker,
-            VisibleDockables = CreateList<IDockable>(tracker),
+            Id = "DetailsDock",
+            Proportion = 0.3,
+            ActiveDockable = creatureDetails,
+            VisibleDockables = CreateList<IDockable>(creatureDetails, spellDetails, tracker),
             Alignment = Alignment.Right
         };
 
@@ -65,11 +73,11 @@ public class DockFactory : Factory
         {
             Orientation = Orientation.Horizontal,
             VisibleDockables = CreateList<IDockable>(
-                detailsDock,
+                browserDock,
                 new ProportionalDockSplitter(),
                 middle,
                 new ProportionalDockSplitter(),
-                trackerDock)
+                detailsDock)
         };
 
         var root = CreateRootDock();
@@ -86,7 +94,7 @@ public class DockFactory : Factory
         {
             [nameof(IDockWindow)] = () => new HostWindow()
         };
-        
+
         base.InitLayout(layout);
     }
 }

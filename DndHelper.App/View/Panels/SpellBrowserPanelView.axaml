@@ -1,0 +1,41 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             xmlns:models="using:DndHelper.Core.Models"
+             x:Class="DndHelper.App.View.Panels.SpellBrowserPanelView"
+             x:DataType="vm:SpellBrowserPanelViewModel">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" Margin="8">
+        <TextBox Grid.Row="0" Text="{Binding SearchText}" PlaceholderText="Search spells..." />
+
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" Margin="0,6,0,0" ColumnSpacing="6">
+            <ComboBox Grid.Column="0" HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:LevelOption">
+                        <TextBlock Text="{Binding Label}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <ComboBox Grid.Column="1" HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Schools}" SelectedItem="{Binding SelectedSchool}" />
+        </Grid>
+
+        <ComboBox Grid.Row="2" Margin="0,6" HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding Classes}" SelectedItem="{Binding SelectedClass}" />
+
+        <ListBox Grid.Row="3" ItemsSource="{Binding Results}" SelectedItem="{Binding SelectedSpell}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="models:SpellSummary">
+                    <StackPanel Margin="2,3">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding Subtitle}" Opacity="0.65" FontSize="12" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Grid.Row="4" Text="{Binding ResultText}" Opacity="0.65" Margin="0,6,0,0" />
+    </Grid>
+
+</UserControl>

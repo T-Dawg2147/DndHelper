@@ -1,0 +1,48 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             xmlns:models="using:DndHelper.Core.Models"
+             x:Class="DndHelper.App.View.Panels.SpellDetailsPanelView"
+             x:DataType="vm:SpellDetailsPanelViewModel">
+
+    <ScrollViewer>
+        <Panel>
+            <TextBlock Text="Select a spell in the Spells panel."
+                       IsVisible="{Binding !HasSpell}"
+                       Opacity="0.7" Margin="16" HorizontalAlignment="Center" />
+
+            <StackPanel IsVisible="{Binding HasSpell}" Margin="16" Spacing="8">
+                <StackPanel>
+                    <TextBlock Text="{Binding Spell.Name}" FontSize="24" FontWeight="Bold" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding Spell.Subtitle}" FontStyle="Italic" Opacity="0.8" />
+                </StackPanel>
+
+                <Separator />
+
+                <ItemsControl ItemsSource="{Binding Spell.Properties}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:LabelValue">
+                            <TextBlock TextWrapping="Wrap" Margin="0,1">
+                                <Run Text="{Binding Label}" FontWeight="Bold" />
+                                <Run Text="{Binding Value}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Separator />
+
+                <TextBlock Text="{Binding Spell.Description}" TextWrapping="Wrap" />
+
+                <StackPanel IsVisible="{Binding Spell.HasHigherLevel}">
+                    <TextBlock Text="At Higher Levels" FontWeight="Bold" Margin="0,8,0,0" />
+                    <TextBlock Text="{Binding Spell.HigherLevel}" TextWrapping="Wrap" />
+                </StackPanel>
+
+                <TextBlock Text="{Binding Spell.SourceName, StringFormat='Source: {0}'}"
+                           Opacity="0.55" FontSize="12" Margin="0,12,0,0" />
+            </StackPanel>
+        </Panel>
+    </ScrollViewer>
+
+</UserControl>

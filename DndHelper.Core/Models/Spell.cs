@@ -78,7 +78,7 @@ public sealed class Spell
         {
             if (string.IsNullOrWhiteSpace(ShapeType)) return "";
             var size = ShapeSize is { } s ? $"{s:0.##} {ShapeSizeUnit ?? "ft."} " : "";
-            return $"{size}{ShapeSize}".Trim();
+            return $"{size}{ShapeType}".Trim();
         }
     }
 
