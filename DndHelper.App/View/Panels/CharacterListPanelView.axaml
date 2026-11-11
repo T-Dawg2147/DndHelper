@@ -1,0 +1,24 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             xmlns:chars="using:DndHelper.Core.Characters"
+             x:Class="DndHelper.App.View.Panels.CharacterListPanelView"
+             x:DataType="vm:CharacterListPanelViewModel">
+    <Grid RowDefinitions="Auto,*" Margin="8">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="6" Margin="0,0,0,6">
+            <Button Content="New" Command="{Binding NewCommand}" />
+            <Button Content="Delete" Command="{Binding DeleteCommand}" />
+        </StackPanel>
+        
+        <ListBox Grid.Row="1" ItemsSource="{Binding Characters}" SelectedItem="{Binding SelectedCharacter}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="chars:PlayerCharacter">
+                    <StackPanel Margin="2,3">
+                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding Summary}" Opacity="0.65" FontSize="12" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

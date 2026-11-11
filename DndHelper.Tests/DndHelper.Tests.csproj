@@ -24,8 +24,4 @@
     <ProjectReference Include="..\DndHelper.Data\DndHelper.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Rules\" />
-  </ItemGroup>
-
 </Project>

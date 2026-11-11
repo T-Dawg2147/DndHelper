@@ -1,0 +1,194 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             xmlns:edit="using:DndHelper.Core.Editing"
+             x:Class="DndHelper.App.View.Panels.CreatureEditorPanelView"
+             x:DataType="vm:CreatureEditorPanelViewModel">
+
+  <ScrollViewer>
+    <StackPanel Margin="16" Spacing="10">
+
+      <TextBlock Text="Creature Editor" FontSize="22" FontWeight="Bold" />
+
+      <!-- Toolbar -->
+      <WrapPanel>
+        <Button Content="New" Command="{Binding NewCommand}" Margin="0,0,8,6" />
+        <Button Content="Save" Command="{Binding SaveCommand}" Margin="0,0,8,6" />
+        <Button Content="{Binding DeleteLabel}" Command="{Binding DeleteCommand}" Margin="0,0,24,6" />
+        <TextBlock Text="NPC generator:" VerticalAlignment="Center" Margin="0,0,8,6" Opacity="0.7" />
+        <ComboBox ItemsSource="{Binding RoleOptions}" SelectedItem="{Binding SelectedRole}" Width="130" Margin="0,0,8,6" />
+        <ComboBox ItemsSource="{Binding SpeciesOptions}" SelectedItem="{Binding SelectedSpecies}" Width="130" Margin="0,0,8,6" />
+        <Button Content="Generate" Command="{Binding GenerateNpcCommand}" Margin="0,0,8,6" />
+      </WrapPanel>
+
+      <Border IsVisible="{Binding HasErrors}" Padding="10" CornerRadius="4" Background="#33FF6B3D">
+        <TextBlock Text="{Binding ErrorText}" TextWrapping="Wrap" />
+      </Border>
+      <TextBlock Text="{Binding StatusText}" Opacity="0.75" TextWrapping="Wrap" />
+
+      <!-- Identity -->
+      <TextBlock Text="Identity" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,0" />
+      <TextBox Text="{Binding Draft.Name}" PlaceholderText="Name" />
+      <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+        <StackPanel Grid.Column="0" Spacing="2">
+          <TextBlock Text="Size" Opacity="0.7" />
+          <ComboBox HorizontalAlignment="Stretch" ItemsSource="{x:Static edit:CreatureDraft.Sizes}" SelectedItem="{Binding Draft.Size}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Spacing="2">
+          <TextBlock Text="Type" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Type}" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Spacing="2">
+          <TextBlock Text="Alignment" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Alignment}" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Combat numbers -->
+      <TextBlock Text="Combat" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,0" />
+      <Grid ColumnDefinitions="*,2*,*,*,*" ColumnSpacing="8">
+        <StackPanel Grid.Column="0" Spacing="2">
+          <TextBlock Text="Armor Class" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.ArmorClass}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Spacing="2">
+          <TextBlock Text="Armor (optional)" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.ArmorDetail}" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Spacing="2">
+          <TextBlock Text="Hit Points" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.HitPoints}" />
+        </StackPanel>
+        <StackPanel Grid.Column="3" Spacing="2">
+          <TextBlock Text="Hit Dice" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.HitDice}" />
+        </StackPanel>
+        <StackPanel Grid.Column="4" Spacing="2">
+          <TextBlock Text="CR" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.ChallengeRating}" />
+        </StackPanel>
+      </Grid>
+      <StackPanel Spacing="2">
+        <TextBlock Text="Speed" Opacity="0.7" />
+        <TextBox Text="{Binding Draft.Speed}" PlaceholderText="30 ft., fly 60 ft." />
+      </StackPanel>
+
+      <!-- Abilities -->
+      <TextBlock Text="Ability scores" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,0" />
+      <UniformGrid Columns="6">
+        <StackPanel Margin="2" Spacing="2">
+          <TextBlock Text="STR" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Strength}" />
+        </StackPanel>
+        <StackPanel Margin="2" Spacing="2">
+          <TextBlock Text="DEX" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Dexterity}" />
+        </StackPanel>
+        <StackPanel Margin="2" Spacing="2">
+          <TextBlock Text="CON" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Constitution}" />
+        </StackPanel>
+        <StackPanel Margin="2" Spacing="2">
+          <TextBlock Text="INT" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Intelligence}" />
+        </StackPanel>
+        <StackPanel Margin="2" Spacing="2">
+          <TextBlock Text="WIS" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Wisdom}" />
+        </StackPanel>
+        <StackPanel Margin="2" Spacing="2">
+          <TextBlock Text="CHA" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Charisma}" />
+        </StackPanel>
+      </UniformGrid>
+
+      <!-- Proficiencies and defences -->
+      <TextBlock Text="Proficiencies and defences" FontSize="16" FontWeight="SemiBold" Margin="0,6,0,0" />
+      <TextBlock Text="Separate damage and condition entries with semicolons." Opacity="0.6" FontSize="12" />
+      <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="6">
+        <StackPanel Grid.Row="0" Grid.Column="0" Spacing="2">
+          <TextBlock Text="Save proficiencies" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.SaveProficiencies}" PlaceholderText="DEX, WIS" />
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Spacing="2">
+          <TextBlock Text="Skills" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Skills}" PlaceholderText="Stealth +6, Perception +4" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Spacing="2">
+          <TextBlock Text="Vulnerabilities" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Vulnerabilities}" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Spacing="2">
+          <TextBlock Text="Resistances" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Resistances}" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="0" Spacing="2">
+          <TextBlock Text="Damage immunities" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.DamageImmunities}" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="1" Spacing="2">
+          <TextBlock Text="Condition immunities" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.ConditionImmunities}" />
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="0" Spacing="2">
+          <TextBlock Text="Senses" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Senses}" PlaceholderText="Darkvision 60 ft." />
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="1" Spacing="2">
+          <TextBlock Text="Languages" Opacity="0.7" />
+          <TextBox Text="{Binding Draft.Languages}" />
+        </StackPanel>
+      </Grid>
+
+      <!-- Traits -->
+      <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+        <TextBlock Text="Traits" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+        <Button Grid.Column="1" Content="Add trait" Command="{Binding AddTraitCommand}" />
+      </Grid>
+      <ItemsControl ItemsSource="{Binding Draft.Traits}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="edit:EntryDraft">
+            <Border Padding="8" Margin="0,4" CornerRadius="4" BorderThickness="1"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
+              <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="6">
+                <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Name}" PlaceholderText="Trait name" />
+                <Button Grid.Row="0" Grid.Column="1" Content="Remove"
+                        Command="{Binding $parent[UserControl].((vm:CreatureEditorPanelViewModel)DataContext).RemoveTraitCommand}"
+                        CommandParameter="{Binding}" />
+                <TextBox Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Description}" PlaceholderText="Description"
+                         AcceptsReturn="True" TextWrapping="Wrap" MinHeight="50" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <!-- Actions -->
+      <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+        <TextBlock Text="Actions" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+        <Button Grid.Column="1" Content="Add action" Command="{Binding AddActionCommand}" />
+      </Grid>
+      <ItemsControl ItemsSource="{Binding Draft.Actions}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="edit:EntryDraft">
+            <Border Padding="8" Margin="0,4" CornerRadius="4" BorderThickness="1"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
+              <Grid ColumnDefinitions="*,170,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="6">
+                <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Name}" PlaceholderText="Action name" />
+                <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
+                          ItemsSource="{x:Static edit:CreatureDraft.ActionTypes}" SelectedItem="{Binding ActionType}" />
+                <Button Grid.Row="0" Grid.Column="2" Content="Remove"
+                        Command="{Binding $parent[UserControl].((vm:CreatureEditorPanelViewModel)DataContext).RemoveActionCommand}"
+                        CommandParameter="{Binding}" />
+                <TextBox Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Description}" PlaceholderText="Description"
+                         AcceptsReturn="True" TextWrapping="Wrap" MinHeight="50" />
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+    </StackPanel>
+  </ScrollViewer>
+
+</UserControl>

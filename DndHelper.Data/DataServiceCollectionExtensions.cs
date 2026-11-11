@@ -2,19 +2,27 @@
 using DndHelper.Data.Open5e;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DndHelper.Data;
 
 public static class DataServiceCollectionExtensions
 {
+    /// <summary>Registers the SQLite content cache, the Open5e sync service and the character store.</summary>
+    /// <param name="databasePath">Optional database file path. Defaults to %LOCALAPPDATA%\DndHelper\content.db.</param>
+    /// <param name="charactersPath">Optional character folder. Defaults to %LOCALAPPDATA%\DndHelper\characters.</param>
     public static IServiceCollection AddDndHelperData(
         this IServiceCollection services,
         string? databasePath = null,
-        Action<Open5eOptions>? configureOpen5e = null)
+        Action<Open5eOptions>? configureOpen5e = null,
+        string? charactersPath = null)
     {
-        databasePath ??= Path.Combine(
+        var root = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "DndHelper", "content.db");
+            "DndHelper");
+
+        databasePath ??= Path.Combine(root, "content.db");
+        charactersPath ??= Path.Combine(root, "characters");
 
         Directory.CreateDirectory(Path.GetDirectoryName(databasePath)!);
 
@@ -23,6 +31,9 @@ public static class DataServiceCollectionExtensions
 
         services.AddDbContextFactory<ContentDbContext>(o => o.UseSqlite($"Data Source={databasePath}"));
         services.AddSingleton<IContentStore, ContentStore>();
+
+        services.AddSingleton<ICharacterStore>(sp =>
+            new JsonCharacterStore(charactersPath, sp.GetRequiredService<ILogger<JsonCharacterStore>>()));
 
         services.AddSingleton(Microsoft.Extensions.Options.Options.Create(options));
         services.AddHttpClient<Open5eClient>(http =>

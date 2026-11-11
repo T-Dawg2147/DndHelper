@@ -213,7 +213,7 @@ public static class Open5eMapper
         // Prefer the human-readable display string; fall back to the structured list.
         var display = r.Str(field + "_display");
         if (!string.IsNullOrWhiteSpace(display))
-            return display.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToList();
+            return display.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToList();
 
         return r.Arr(field).Select(NameOrString).Where(s => s.Length > 0).ToList();
     }

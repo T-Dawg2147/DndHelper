@@ -1,0 +1,138 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             xmlns:models="using:DndHelper.Core.Models"
+             x:Class="DndHelper.App.View.Panels.CharacterBuilderPanelView"
+             x:DataType="vm:CharacterBuilderPanelViewModel">
+
+  <ScrollViewer>
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="24" Margin="16">
+
+      <!-- Left column: choices -->
+      <StackPanel Grid.Column="0" Spacing="10">
+        <TextBlock Text="Character Builder" FontSize="22" FontWeight="Bold" />
+
+        <TextBox Text="{Binding CharacterName}" PlaceholderText="Character name" />
+
+        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="8" RowSpacing="6">
+          <StackPanel Grid.Row="0" Grid.Column="0" Spacing="2">
+            <TextBlock Text="Species" Opacity="0.7" />
+            <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding SpeciesNames}" SelectedItem="{Binding SelectedSpecies}" />
+          </StackPanel>
+          <StackPanel Grid.Row="0" Grid.Column="1" Spacing="2">
+            <TextBlock Text="Class" Opacity="0.7" />
+            <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding ClassNames}" SelectedItem="{Binding SelectedClass}" />
+          </StackPanel>
+          <StackPanel Grid.Row="1" Grid.Column="0" Spacing="2">
+            <TextBlock Text="Background" Opacity="0.7" />
+            <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding BackgroundNames}" SelectedItem="{Binding SelectedBackground}" />
+          </StackPanel>
+          <StackPanel Grid.Row="1" Grid.Column="1" Spacing="2">
+            <TextBlock Text="Level" Opacity="0.7" />
+            <NumericUpDown Minimum="1" Maximum="20" Increment="1" FormatString="0" Value="{Binding CharacterLevel}" />
+          </StackPanel>
+        </Grid>
+
+        <TextBlock Text="Ability scores" FontSize="16" FontWeight="SemiBold" Margin="0,8,0,0" />
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+          <ComboBox Grid.Column="0" HorizontalAlignment="Stretch" ItemsSource="{Binding Methods}" SelectedItem="{Binding SelectedMethod}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate x:DataType="vm:MethodOption">
+                <TextBlock Text="{Binding Label}" />
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+          <Button Grid.Column="1" Content="Apply / Roll" Command="{Binding GenerateScoresCommand}" />
+        </Grid>
+
+        <UniformGrid Columns="3" Rows="2">
+          <StackPanel Margin="2" Spacing="2">
+            <TextBlock Text="STR" Opacity="0.7" />
+            <NumericUpDown Minimum="1" Maximum="30" Increment="1" FormatString="0" Value="{Binding Strength}" />
+          </StackPanel>
+          <StackPanel Margin="2" Spacing="2">
+            <TextBlock Text="DEX" Opacity="0.7" />
+            <NumericUpDown Minimum="1" Maximum="30" Increment="1" FormatString="0" Value="{Binding Dexterity}" />
+          </StackPanel>
+          <StackPanel Margin="2" Spacing="2">
+            <TextBlock Text="CON" Opacity="0.7" />
+            <NumericUpDown Minimum="1" Maximum="30" Increment="1" FormatString="0" Value="{Binding Constitution}" />
+          </StackPanel>
+          <StackPanel Margin="2" Spacing="2">
+            <TextBlock Text="INT" Opacity="0.7" />
+            <NumericUpDown Minimum="1" Maximum="30" Increment="1" FormatString="0" Value="{Binding Intelligence}" />
+          </StackPanel>
+          <StackPanel Margin="2" Spacing="2">
+            <TextBlock Text="WIS" Opacity="0.7" />
+            <NumericUpDown Minimum="1" Maximum="30" Increment="1" FormatString="0" Value="{Binding Wisdom}" />
+          </StackPanel>
+          <StackPanel Margin="2" Spacing="2">
+            <TextBlock Text="CHA" Opacity="0.7" />
+            <NumericUpDown Minimum="1" Maximum="30" Increment="1" FormatString="0" Value="{Binding Charisma}" />
+          </StackPanel>
+        </UniformGrid>
+
+        <TextBlock Text="Background ability increases" FontSize="16" FontWeight="SemiBold" Margin="0,8,0,0" />
+        <CheckBox Content="+2 and +1 (untick for +1 to all three)" IsChecked="{Binding UseSplitBonus}" />
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="8" IsVisible="{Binding UseSplitBonus}">
+          <StackPanel Grid.Column="0" Spacing="2">
+            <TextBlock Text="+2 to" Opacity="0.7" />
+            <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding BonusAbilities}" SelectedItem="{Binding SelectedPlus2}" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="2">
+            <TextBlock Text="+1 to" Opacity="0.7" />
+            <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding BonusAbilities}" SelectedItem="{Binding SelectedPlus1}" />
+          </StackPanel>
+        </Grid>
+
+        <TextBlock Text="Class skills" FontSize="16" FontWeight="SemiBold" Margin="0,8,0,0" />
+        <TextBlock Text="{Binding SkillHint}" Opacity="0.7" TextWrapping="Wrap" />
+        <ItemsControl ItemsSource="{Binding SkillChoices}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:SkillChoice">
+              <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" Margin="0,0,12,0" />
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Text="Other" FontSize="16" FontWeight="SemiBold" Margin="0,8,0,0" />
+        <NumericUpDown Minimum="0" Maximum="30" Increment="1" FormatString="0" Value="{Binding ManualArmorClass}"
+                       PlaceholderText="Armor Class override (blank = 10 + Dex)" />
+        <TextBox Text="{Binding CharacterNotes}" PlaceholderText="Notes" AcceptsReturn="True" MinHeight="70" TextWrapping="Wrap" />
+      </StackPanel>
+
+      <!-- Right column: live sheet -->
+      <StackPanel Grid.Column="1" Spacing="8">
+        <TextBlock Text="Sheet preview" FontSize="16" FontWeight="SemiBold" Margin="0,38,0,0" />
+
+        <ItemsControl ItemsSource="{Binding PreviewLines}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:LabelValue">
+              <TextBlock TextWrapping="Wrap" Margin="0,2">
+                <Run Text="{Binding Label}" FontWeight="Bold" />
+                <Run Text="{Binding Value}" />
+              </TextBlock>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Border IsVisible="{Binding HasErrors}" Padding="10" CornerRadius="4" Background="#33FF6B3D">
+          <TextBlock Text="{Binding ErrorText}" TextWrapping="Wrap" />
+        </Border>
+
+        <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+          <Button Content="Save character" Command="{Binding SaveCommand}" />
+          <Button Content="New" Command="{Binding NewCommand}" />
+        </StackPanel>
+        <TextBlock Text="{Binding StatusText}" Opacity="0.75" />
+      </StackPanel>
+
+    </Grid>
+  </ScrollViewer>
+
+</UserControl>

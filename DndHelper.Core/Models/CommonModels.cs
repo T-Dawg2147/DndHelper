@@ -8,7 +8,7 @@ public sealed class NamedEntry
     public string Description { get; init; } = string.Empty;
 }
 
-public sealed record AbilitiesDisplay(string Abbreviation, int Score, string Modifier, string Save, bool SaveProficient);
+public sealed record AbilityDisplays(string Abbreviation, int Score, string Modifier, string Save, bool SaveProficient);
 
 public sealed class AttackEntry
 {

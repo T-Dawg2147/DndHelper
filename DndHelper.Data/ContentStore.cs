@@ -156,10 +156,10 @@ public sealed class ContentStore(IDbContextFactory<ContentDbContext> factory) : 
         await using var db = await factory.CreateDbContextAsync(ct).ConfigureAwait(false);
         await using var tx = await db.Database.BeginTransactionAsync(ct).ConfigureAwait(false);
 
-        await db.Creatures.ExecuteDeleteAsync(ct).ConfigureAwait(false);
+        await db.Creatures.Where(c => c.SourceKey != ContentSources.Custom).ExecuteDeleteAsync(ct).ConfigureAwait(false);
         await db.Spells.ExecuteDeleteAsync(ct).ConfigureAwait(false);
 
-        db.Creatures.AddRange(creatures.Select(c => new CreatureEntity
+        db.Creatures.AddRange(creatures.Where(c => c.SourceKey != ContentSources.Custom).Select(c => new CreatureEntity
         {
             Key = c.Key,
             Name = c.Name,
@@ -188,5 +188,48 @@ public sealed class ContentStore(IDbContextFactory<ContentDbContext> factory) : 
 
         await db.SaveChangesAsync(ct).ConfigureAwait(false);
         await tx.CommitAsync(ct).ConfigureAwait(false);
+    }
+    
+    public async Task SaveCustomCreatureAsync(Creature creature, CancellationToken ct = default)
+    {
+        if (string.IsNullOrWhiteSpace(creature.Key))
+            throw new ArgumentException("A creature needs a key to be saved.", nameof(creature));
+
+        if (creature.SourceKey != ContentSources.Custom)
+            throw new ArgumentException("Only custom creatures can be saved.", nameof(creature));
+
+        await using var db = await factory.CreateDbContextAsync(ct).ConfigureAwait(false);
+        var entity = await db.Creatures.FindAsync([creature.Key], ct).ConfigureAwait(false);
+
+        // Never overwrite a downloaded creature, even if the key somehow matches.
+        if (entity is not null && entity.SourceKey != ContentSources.Custom)
+            throw new InvalidOperationException($"'{creature.Key}' belongs to downloaded content and cannot be overwritten.");
+
+        if (entity is null)
+        {
+            entity = new CreatureEntity { Key = creature.Key };
+            db.Creatures.Add(entity);
+        }
+
+        entity.Name = creature.Name;
+        entity.Type = creature.Type;
+        entity.Size = creature.Size;
+        entity.ChallengeRating = creature.ChallengeRating;
+        entity.ChallengeRatingText = creature.ChallengeRatingText;
+        entity.SourceKey = ContentSources.Custom;
+        entity.SourceName = creature.SourceName;
+        entity.Json = JsonSerializer.Serialize(creature, Json);
+
+        await db.SaveChangesAsync(ct).ConfigureAwait(false);
+    }
+
+    public async Task<bool> DeleteCustomCreatureAsync(string key, CancellationToken ct = default)
+    {
+        await using var db = await factory.CreateDbContextAsync(ct).ConfigureAwait(false);
+        var deleted = await db.Creatures
+            .Where(c => c.Key == key && c.SourceKey == ContentSources.Custom)
+            .ExecuteDeleteAsync(ct).ConfigureAwait(false);
+
+        return deleted > 0;
     }
 }

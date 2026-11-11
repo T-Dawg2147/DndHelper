@@ -12,6 +12,7 @@
                  Opacity="0.7" Margin="16" HorizontalAlignment="Center" />
 
       <StackPanel IsVisible="{Binding HasCreature}" Margin="16" Spacing="8">
+        <Button Content="{Binding EditLabel}" Command="{Binding EditCommand}" HorizontalAlignment="Left" />
         <StackPanel>
           <TextBlock Text="{Binding Creature.Name}" FontSize="24" FontWeight="Bold" TextWrapping="Wrap" />
           <TextBlock Text="{Binding Creature.Subtitle}" FontStyle="Italic" Opacity="0.8" />
@@ -34,14 +35,14 @@
 
         <Separator />
 
-        <ItemsControl ItemsSource="{Binding Creature.AbilitiesDisplays}">
+        <ItemsControl ItemsSource="{Binding Creature.AbilityDisplays}">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
               <UniformGrid Columns="6" />
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
-            <DataTemplate x:DataType="models:AbilitiesDisplay">
+            <DataTemplate x:DataType="models:AbilityDisplays">
               <StackPanel HorizontalAlignment="Center">
                 <TextBlock Text="{Binding Abbreviation}" FontWeight="Bold" HorizontalAlignment="Center" />
                 <TextBlock HorizontalAlignment="Center">

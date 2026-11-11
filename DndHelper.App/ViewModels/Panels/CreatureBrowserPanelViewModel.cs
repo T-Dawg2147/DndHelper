@@ -108,7 +108,7 @@ public partial class CreatureBrowserPanelViewModel : Tool
         {
             var creature = await _store.GetCreatureAsync(summary.Key);
             if (creature is not null)
-                WeakReferenceMessenger.Default.Send(new CreatureSelectedMessaged(creature));
+                WeakReferenceMessenger.Default.Send(new CreatureSelectedMessage(creature));
         }
         catch (Exception ex)
         {

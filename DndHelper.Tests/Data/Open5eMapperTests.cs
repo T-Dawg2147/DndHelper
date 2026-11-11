@@ -91,8 +91,8 @@ public class Open5eMapperTests
     {
         var c = Open5eMapper.ParseCreature(Parse(GoblinJson));
 
-        c.AbilitiesDisplays.Should().HaveCount(6);
-        c.AbilitiesDisplays[1].Should().Be(new DndHelper.Core.Models.AbilitiesDisplay("DEX", 14, "+2", "+2", false));
+        c.AbilityDisplays.Should().HaveCount(6);
+        c.AbilityDisplays[1].Should().Be(new DndHelper.Core.Models.AbilityDisplays("DEX", 14, "+2", "+2", false));
         c.Skills.Should().ContainKey("stealth").WhoseValue.Should().Be(6);
         c.Skills.Should().HaveCount(1);
     }

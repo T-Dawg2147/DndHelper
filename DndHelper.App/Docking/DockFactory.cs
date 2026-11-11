@@ -20,6 +20,9 @@ public class DockFactory(IServiceProvider services) : Factory
         var spells = ActivatorUtilities.CreateInstance<SpellBrowserPanelViewModel>(services);
         var creatureDetails = ActivatorUtilities.CreateInstance<CreatureDetailsPanelViewModel>(services);
         var spellDetails = ActivatorUtilities.CreateInstance<SpellDetailsPanelViewModel>(services);
+        var characters = ActivatorUtilities.CreateInstance<CharacterListPanelViewModel>(services);
+        var builder = ActivatorUtilities.CreateInstance<CharacterBuilderPanelViewModel>(services);
+        var editor = ActivatorUtilities.CreateInstance<CreatureEditorPanelViewModel>(services);
         var map = new MapPanelViewModel();
         var tracker = new EncounterTrackerPanelViewModel();
         var log = new BattleLogPanelViewModel();
@@ -29,7 +32,7 @@ public class DockFactory(IServiceProvider services) : Factory
             Id = "BrowserDock",
             Proportion = 0.24,
             ActiveDockable = creatures,
-            VisibleDockables = CreateList<IDockable>(creatures, spells),
+            VisibleDockables = CreateList<IDockable>(creatures, spells, characters),
             Alignment = Alignment.Left
         };
 
@@ -38,7 +41,7 @@ public class DockFactory(IServiceProvider services) : Factory
             Id = "MapDock",
             IsCollapsable = false,
             ActiveDockable = map,
-            VisibleDockables = CreateList<IDockable>(map),
+            VisibleDockables = CreateList<IDockable>(map, builder, editor),
             CanCreateDocument = false
         };
 

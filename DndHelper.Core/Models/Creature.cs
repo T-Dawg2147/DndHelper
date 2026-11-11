@@ -79,17 +79,17 @@ public sealed class Creature
         => ExperiencePoints is { } xp ? $"CR {ChallengeRatingText} ({xp:N0} XP)" : $"CR {ChallengeRatingText}";
     
     [JsonIgnore]
-    public IReadOnlyList<AbilitiesDisplay> AbilitiesDisplays
+    public IReadOnlyList<AbilityDisplays> AbilityDisplays
     {
         get
         {
-            var list = new List<AbilitiesDisplay>(6);
+            var list = new List<AbilityDisplays>(6);
             for (var i = 0; i < AbilityOrder.Length; i++)
             {
                 var key = AbilityOrder[i];
                 var score = AbilityScores.GetValueOrDefault(key, 10);
                 var save = SavingThrows.GetValueOrDefault(key, Modifier(score));
-                list.Add(new AbilitiesDisplay(
+                list.Add(new AbilityDisplays(
                     AbilityAbbreviations[i],
                     score,
                     Signed(Modifier(score)),
