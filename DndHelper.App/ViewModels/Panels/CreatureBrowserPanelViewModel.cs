@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DndHelper.App.ViewModels.Panels;
 
+/// <summary>Searchable, filterable list of creatures. Selecting one shows it in the Creature Details panel.</summary>
 public partial class CreatureBrowserPanelViewModel : Tool
 {
     private const string AnyType = "Any type";
@@ -18,13 +19,13 @@ public partial class CreatureBrowserPanelViewModel : Tool
     private readonly ILogger<CreatureBrowserPanelViewModel> _logger;
     private CancellationTokenSource? _searchCts;
 
-    [ObservableProperty] private string _searchText = string.Empty;
+    [ObservableProperty] private string _searchText = "";
     [ObservableProperty] private string _selectedType = AnyType;
     [ObservableProperty] private decimal? _minChallengeRating;
     [ObservableProperty] private decimal? _maxChallengeRating;
     [ObservableProperty] private CreatureSummary? _selectedCreature;
     [ObservableProperty] private IReadOnlyList<CreatureSummary> _results = [];
-    [ObservableProperty] private string _resultText = string.Empty;
+    [ObservableProperty] private string _resultText = "";
 
     public ObservableCollection<string> Types { get; } = [AnyType];
 
@@ -36,7 +37,7 @@ public partial class CreatureBrowserPanelViewModel : Tool
         Id = "CreatureBrowser";
         Title = "Creatures";
         CanClose = false;
-        
+
         WeakReferenceMessenger.Default.Register<CreatureBrowserPanelViewModel, ContentUpdatedMessage>(
             this, static (r, msg) => Dispatcher.UIThread.Post(() => _ = r.ReloadAsync()));
 
@@ -92,11 +93,11 @@ public partial class CreatureBrowserPanelViewModel : Tool
         }
         catch (OperationCanceledException)
         {
-            // A newer search took priority over this one; throw
+            // A newer search superseded this one.
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Creature search failed.");
+            _logger.LogError(ex, "Creature search failed");
         }
     }
 

@@ -1,4 +1,4 @@
-﻿using Dock.Avalonia.Controls;
+using Dock.Avalonia.Controls;
 using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.Mvvm;
@@ -23,9 +23,10 @@ public class DockFactory(IServiceProvider services) : Factory
         var characters = ActivatorUtilities.CreateInstance<CharacterListPanelViewModel>(services);
         var builder = ActivatorUtilities.CreateInstance<CharacterBuilderPanelViewModel>(services);
         var editor = ActivatorUtilities.CreateInstance<CreatureEditorPanelViewModel>(services);
-        var map = new MapPanelViewModel();
-        var tracker = new EncounterTrackerPanelViewModel();
-        var log = new BattleLogPanelViewModel();
+        var map = services.GetRequiredService<MapPanelViewModel>();
+        var tracker = ActivatorUtilities.CreateInstance<EncounterTrackerPanelViewModel>(services);
+        var resolver = ActivatorUtilities.CreateInstance<SpellResolverPanelViewModel>(services);
+        var log = ActivatorUtilities.CreateInstance<BattleLogPanelViewModel>(services);
 
         var browserDock = new ToolDock
         {
@@ -50,7 +51,7 @@ public class DockFactory(IServiceProvider services) : Factory
             Id = "DetailsDock",
             Proportion = 0.3,
             ActiveDockable = creatureDetails,
-            VisibleDockables = CreateList<IDockable>(creatureDetails, spellDetails, tracker),
+            VisibleDockables = CreateList<IDockable>(creatureDetails, spellDetails, tracker, resolver),
             Alignment = Alignment.Right
         };
 

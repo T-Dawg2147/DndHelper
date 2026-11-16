@@ -1,5 +1,6 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
+/// <summary>The outcome of rolling a d20, including the die that was discarded by advantage or disadvantage.</summary>
 public sealed record D20Result(int Natural, int? Discarded, RollMode Mode, int Modifier)
 {
     public int Total => Natural + Modifier;

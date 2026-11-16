@@ -1,4 +1,4 @@
-﻿using DndHelper.Core.Characters;
+using DndHelper.Core.Characters;
 using DndHelper.Core.Rules;
 using FluentAssertions;
 using DndHelper.Tests.Rules;

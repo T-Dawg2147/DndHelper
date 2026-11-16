@@ -1,4 +1,4 @@
-﻿using DndHelper.Core;
+using DndHelper.Core;
 using FluentAssertions;
 
 namespace DndHelper.Tests;

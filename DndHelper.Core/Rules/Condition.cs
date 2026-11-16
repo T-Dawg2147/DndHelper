@@ -1,5 +1,6 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
+/// <summary>Conditions from the 2024 rules. Exhaustion is tracked separately as a level (0-6).</summary>
 public enum Condition
 {
     Blinded,

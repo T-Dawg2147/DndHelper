@@ -1,10 +1,62 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:DndHelper.App.ViewModels.Panels"
              x:Class="DndHelper.App.View.Panels.EncounterTrackerPanelView"
              x:DataType="vm:EncounterTrackerPanelViewModel">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
-        <TextBlock Text="Encounter Tracker" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" />
-        <TextBlock Text="Initiative order and turns will appear here (M5)." Opacity="0.7" HorizontalAlignment="Center" />
+
+  <Grid RowDefinitions="Auto,Auto,*,Auto,Auto" Margin="8">
+
+    <TextBlock Grid.Row="0" Text="{Binding HeaderText}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,6" />
+
+    <WrapPanel Grid.Row="1">
+      <Button Content="Add creature" Command="{Binding AddCreatureCommand}" Margin="0,0,4,4" />
+      <Button Content="Add character" Command="{Binding AddCharacterCommand}" Margin="0,0,4,4" />
+      <Button Content="Roll initiative" Command="{Binding RollInitiativeCommand}" Margin="0,0,4,4" />
+      <Button Content="Start" Command="{Binding StartCommand}" Margin="0,0,4,4" />
+      <Button Content="Next turn" Command="{Binding NextTurnCommand}" Margin="0,0,4,4" />
+      <Button Content="End" Command="{Binding EndEncounterCommand}" Margin="0,0,4,4" />
+    </WrapPanel>
+
+    <ListBox Grid.Row="2" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="vm:ParticipantRow">
+          <StackPanel Margin="2,3">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+              <TextBlock Grid.Column="1" Text="{Binding Initiative}" Opacity="0.7" />
+            </Grid>
+            <TextBlock Text="{Binding Stats}" FontSize="12" />
+            <TextBlock Text="{Binding Status}" FontSize="12" Foreground="Orange" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding Economy}" FontSize="11" Opacity="0.6" />
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <StackPanel Grid.Row="3" Margin="0,8,0,0" Spacing="4">
+      <WrapPanel>
+        <NumericUpDown Value="{Binding Amount}" Minimum="0" Maximum="9999" FormatString="0" Width="100" Margin="0,0,4,4" />
+        <ComboBox ItemsSource="{Binding DamageTypes}" SelectedItem="{Binding SelectedDamageType}" Width="120" Margin="0,0,4,4" />
+        <CheckBox Content="Magical" IsChecked="{Binding IsMagical}" Margin="0,0,4,4" />
+        <CheckBox Content="Crit" IsChecked="{Binding IsCritical}" Margin="0,0,8,4" />
+        <Button Content="Damage" Command="{Binding DamageCommand}" Margin="0,0,4,4" />
+        <Button Content="Heal" Command="{Binding HealCommand}" Margin="0,0,4,4" />
+        <Button Content="Temp HP" Command="{Binding TempHpCommand}" Margin="0,0,4,4" />
+        <Button Content="Death save" Command="{Binding DeathSaveCommand}" Margin="0,0,4,4" />
+      </WrapPanel>
+      <WrapPanel>
+        <ComboBox ItemsSource="{Binding Conditions}" SelectedItem="{Binding SelectedCondition}" Width="130" Margin="0,0,4,4" />
+        <Button Content="Toggle condition" Command="{Binding ToggleConditionCommand}" Margin="0,0,12,4" />
+        <NumericUpDown Value="{Binding InitiativeInput}" Minimum="-10" Maximum="40" FormatString="0" Width="90" Margin="0,0,4,4" />
+        <Button Content="Set initiative" Command="{Binding SetInitiativeCommand}" Margin="0,0,12,4" />
+        <Button Content="Action" Command="{Binding ToggleActionCommand}" Margin="0,0,4,4" />
+        <Button Content="Bonus" Command="{Binding ToggleBonusCommand}" Margin="0,0,4,4" />
+        <Button Content="Reaction" Command="{Binding ToggleReactionCommand}" Margin="0,0,12,4" />
+        <Button Content="Remove" Command="{Binding RemoveSelectedCommand}" Margin="0,0,0,4" />
+      </WrapPanel>
     </StackPanel>
+
+    <TextBlock Grid.Row="4" Text="{Binding StatusText}" Opacity="0.75" TextWrapping="Wrap" />
+  </Grid>
+
 </UserControl>

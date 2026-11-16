@@ -1,10 +1,11 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public sealed class AttackRequest
 {
     public required Combatant Attacker { get; init; }
     public required Combatant Target { get; init; }
 
+    /// <summary>Total attack bonus (ability modifier + proficiency + magic). Effect bonuses and exhaustion are added automatically.</summary>
     public int ToHitBonus { get; init; }
 
     public DiceExpression? Damage { get; init; }
@@ -22,7 +23,7 @@ public sealed class AttackRequest
 public sealed record AttackResult(
     D20Result? Roll,
     int TargetArmorClass,
-    bool Hit, 
+    bool Hit,
     bool Critical,
     RollMode Mode,
     IReadOnlyList<string> Reasons,

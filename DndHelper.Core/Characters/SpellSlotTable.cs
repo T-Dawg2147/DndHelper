@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Characters;
+namespace DndHelper.Core.Characters;
 
 /// <summary>Spell slots per spell level (index 0 is 1st-level slots) for each character level.</summary>
 public static class SpellSlotTable

@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public sealed class DiceRoller(IRandomSource random)
 {
@@ -15,18 +15,19 @@ public sealed class DiceRoller(IRandomSource random)
             var values = new List<int>(term.Count);
             for (var i = 0; i < term.Count; i++)
                 values.Add(RollDie(term.Sides));
-            
+
             var roll = new DiceTermRoll(term, values);
             termRolls.Add(roll);
             total += roll.Subtotal;
         }
-        
+
         return new DiceRollResult(effective, termRolls, effective.Modifier, total, critical);
     }
 
     public DiceRollResult Roll(string notation, bool critical = false)
         => Roll(DiceExpression.Parse(notation), critical);
 
+    /// <summary>Rolls a d20. With advantage or disadvantage two dice are rolled and one is kept.</summary>
     public D20Result RollD20(RollMode mode = RollMode.Normal, int modifier = 0)
     {
         var first = RollDie(20);
@@ -39,5 +40,4 @@ public sealed class DiceRoller(IRandomSource random)
             ? new D20Result(first, second, mode, modifier)
             : new D20Result(second, first, mode, modifier);
     }
-
 }

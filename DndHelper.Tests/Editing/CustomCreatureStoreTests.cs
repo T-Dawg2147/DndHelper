@@ -1,4 +1,4 @@
-﻿using DndHelper.Core.Editing;
+using DndHelper.Core.Editing;
 using DndHelper.Core.Models;
 using DndHelper.Core.Services;
 using DndHelper.Data;

@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DndHelper.Core\DndHelper.Core.csproj" />
     <ProjectReference Include="..\DndHelper.Data\DndHelper.Data.csproj" />
+    <ProjectReference Include="..\DndHelper.Maps\DndHelper.Maps.csproj" />
   </ItemGroup>
 
 </Project>

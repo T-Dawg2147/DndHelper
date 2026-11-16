@@ -1,4 +1,4 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:DndHelper.App.ViewModels"
         x:Class="DndHelper.App.View.MainWindow"
@@ -7,25 +7,26 @@
         Width="1500" Height="850"
         WindowStartupLocation="CenterScreen">
 
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Data">
-                <MenuItem Header="_Download / Refresh SRD Content" Command="{Binding SyncContentCommand}" />
-            </MenuItem>
-            <MenuItem Header="_View">
-                <MenuItem Header="_Reset Layout" Command="{Binding ResetLayoutCommand}" />
-            </MenuItem>
-        </Menu>
+  <DockPanel>
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="_Data">
+        <MenuItem Header="_Download / Refresh SRD Content" Command="{Binding SyncContentCommand}" />
+      </MenuItem>
+      <MenuItem Header="_View">
+        <MenuItem Header="Open _Player View" Click="OpenPlayerView" />
+        <MenuItem Header="_Reset Layout" Command="{Binding ResetLayoutCommand}" />
+      </MenuItem>
+    </Menu>
 
-        <Border DockPanel.Dock="Bottom" Padding="8,4" BorderThickness="0,1,0,0"
-                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
-            <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0" Text="{Binding StatusText}" VerticalAlignment="Center" />
-                <ProgressBar Grid.Column="1" Width="140" IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
-            </Grid>
-        </Border>
+    <Border DockPanel.Dock="Bottom" Padding="8,4" BorderThickness="0,1,0,0"
+            BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock Grid.Column="0" Text="{Binding StatusText}" VerticalAlignment="Center" />
+        <ProgressBar Grid.Column="1" Width="140" IsIndeterminate="True" IsVisible="{Binding IsBusy}" />
+      </Grid>
+    </Border>
 
-        <DockControl Layout="{Binding Layout}" />
-    </DockPanel>
+    <DockControl Layout="{Binding Layout}" />
+  </DockPanel>
 
 </Window>

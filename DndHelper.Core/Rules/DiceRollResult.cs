@@ -1,11 +1,11 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public sealed record DiceTermRoll(DiceTerm Term, IReadOnlyList<int> Values)
 {
     public int Subtotal => Term.Sign * Values.Sum();
 }
 
-public record DiceRollResult(
+public sealed record DiceRollResult(
     DiceExpression Expression,
     IReadOnlyList<DiceTermRoll> Terms,
     int Modifier,

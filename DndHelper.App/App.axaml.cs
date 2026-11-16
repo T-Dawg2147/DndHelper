@@ -1,9 +1,11 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using DndHelper.App.Docking;
-using DndHelper.App.View;
+using DndHelper.App.Services;
 using DndHelper.App.ViewModels;
+using DndHelper.App.ViewModels.Panels;
+using DndHelper.App.View;
 using DndHelper.Core.Services;
 using DndHelper.Data;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,22 +31,26 @@ public class App : Application
 
         Services = _host.Services;
         Services.GetRequiredService<IContentStore>().Initialize();
-        
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow()
+            desktop.MainWindow = new MainWindow
             {
                 DataContext = Services.GetRequiredService<MainWindowViewModel>()
             };
             desktop.Exit += (_, _) => _host.Dispose();
         }
-        
+
         base.OnFrameworkInitializationCompleted();
     }
 
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddDndHelperData();
+        services.AddSingleton<IFileDialogService, FileDialogService>();
+        services.AddSingleton<EncounterSession>();
+        services.AddSingleton<AreaSession>();
+        services.AddSingleton<MapPanelViewModel>();
         services.AddSingleton<DockFactory>();
         services.AddSingleton<MainWindowViewModel>();
     }

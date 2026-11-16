@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,13 +11,15 @@ using Microsoft.Extensions.Logging;
 
 namespace DndHelper.App.ViewModels.Panels;
 
+/// <summary>Saved player characters. Selecting one opens it in the Character Builder.</summary>
 public partial class CharacterListPanelViewModel : Tool
 {
     private readonly ICharacterStore _store;
     private readonly ILogger<CharacterListPanelViewModel> _logger;
     private bool _suppressSelection;
 
-    [ObservableProperty, NotifyCanExecuteChangedFor(nameof(DeleteCommand))]
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(DeleteCommand))]
     private PlayerCharacter? _selectedCharacter;
 
     public ObservableCollection<PlayerCharacter> Characters { get; } = [];
@@ -30,7 +32,7 @@ public partial class CharacterListPanelViewModel : Tool
         Id = "CharacterList";
         Title = "Characters";
         CanClose = false;
-        
+
         WeakReferenceMessenger.Default.Register<CharacterListPanelViewModel, CharactersChangedMessage>(
             this, static (r, msg) => Dispatcher.UIThread.Post(() => _ = r.ReloadAsync(msg.SelectId)));
 
@@ -86,7 +88,7 @@ public partial class CharacterListPanelViewModel : Tool
         catch (Exception ex)
         {
             _suppressSelection = false;
-            _logger.LogError(ex, "Failed to load charcters");
+            _logger.LogError(ex, "Failed to load characters");
         }
     }
 }

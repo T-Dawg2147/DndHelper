@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+        xmlns:c="using:DndHelper.App.Controls"
+        x:Class="DndHelper.App.View.PlayerViewWindow"
+        x:DataType="vm:MapPanelViewModel"
+        Title="Player View (F11: full screen)"
+        Width="1000" Height="700"
+        WindowStartupLocation="CenterScreen">
+
+  <c:HexMapControl Map="{Binding Map}"
+                   Tokens="{Binding Tokens}"
+                   AreaHexes="{Binding AreaHexes}"
+                   AreaOrigin="{Binding AreaOrigin}"
+                   Revision="{Binding Revision}"
+                   FitRequest="{Binding FitRequest}"
+                   ShowEnemyHealth="False" />
+
+</Window>

@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             x:Class="DndHelper.App.View.Panels.SpellResolverPanelView"
+             x:DataType="vm:SpellResolverPanelViewModel">
+
+  <ScrollViewer>
+    <StackPanel Margin="8" Spacing="6">
+
+      <TextBlock Text="Spell Resolver" FontSize="18" FontWeight="SemiBold" />
+
+      <WrapPanel>
+        <TextBox Text="{Binding SpellName}" Width="170" PlaceholderText="Spell name" Margin="0,0,6,4" />
+        <Button Content="Load selected spell" Command="{Binding LoadSpellCommand}" Margin="0,0,0,4" />
+      </WrapPanel>
+
+      <TextBlock Text="Effect" FontWeight="SemiBold" Margin="0,4,0,0" />
+      <WrapPanel>
+        <TextBox Text="{Binding DamageText}" Width="90" PlaceholderText="8d6" Margin="0,0,6,4" />
+        <ComboBox ItemsSource="{Binding DamageTypes}" SelectedItem="{Binding SelectedDamageType}" Width="120" Margin="0,0,6,4" />
+        <CheckBox Content="Magical" IsChecked="{Binding IsMagical}" Margin="0,0,6,4" />
+      </WrapPanel>
+      <WrapPanel>
+        <TextBlock Text="Save" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <ComboBox ItemsSource="{Binding SaveChoices}" SelectedItem="{Binding SelectedSave}" Width="130" Margin="0,0,6,4" />
+        <TextBlock Text="DC" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <NumericUpDown Value="{Binding SaveDc}" Minimum="1" Maximum="30" FormatString="0" Width="90" Margin="0,0,6,4" />
+        <CheckBox Content="Half damage on save" IsChecked="{Binding HalfOnSave}" Margin="0,0,6,4" />
+      </WrapPanel>
+      <WrapPanel>
+        <TextBlock Text="Condition on fail" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <ComboBox ItemsSource="{Binding ConditionChoices}" SelectedItem="{Binding SelectedEffectCondition}" Width="130" Margin="0,0,6,4" />
+        <TextBlock Text="Rounds" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <NumericUpDown Value="{Binding DurationRounds}" Minimum="0" Maximum="600" FormatString="0" Width="90" Margin="0,0,6,4" />
+        <CheckBox Content="Concentration" IsChecked="{Binding Concentration}" Margin="0,0,6,4" />
+      </WrapPanel>
+      <WrapPanel>
+        <TextBlock Text="Caster" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <ComboBox ItemsSource="{Binding Casters}" SelectedItem="{Binding SelectedCaster}" Width="180" Margin="0,0,6,4" />
+      </WrapPanel>
+
+      <TextBlock Text="Area (use the Area tool on the map)" FontWeight="SemiBold" Margin="0,4,0,0" />
+      <WrapPanel>
+        <ComboBox ItemsSource="{Binding Kinds}" SelectedItem="{Binding SelectedKind}" Width="120" Margin="0,0,6,4" />
+        <TextBlock Text="Size ft." VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <NumericUpDown Value="{Binding SizeFeet}" Minimum="5" Maximum="600" Increment="5" FormatString="0" Width="100" Margin="0,0,6,4" />
+        <TextBlock Text="Line width ft." VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <NumericUpDown Value="{Binding WidthFeet}" Minimum="5" Maximum="100" Increment="5" FormatString="0" Width="100" Margin="0,0,6,4" />
+      </WrapPanel>
+
+      <TextBlock Text="{Binding TargetSummary}" TextWrapping="Wrap" Opacity="0.8" />
+
+      <ItemsControl ItemsSource="{Binding Targets}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="vm:TargetRow">
+            <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,2">
+              <CheckBox Grid.Column="0" IsChecked="{Binding Include}" />
+              <TextBlock Grid.Column="1" Text="{Binding Label}" VerticalAlignment="Center" TextWrapping="Wrap" />
+              <ComboBox Grid.Column="2" ItemsSource="{Binding CoverChoices}" SelectedItem="{Binding Cover}"
+                        Width="140" Margin="6,0,0,0" />
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <WrapPanel Margin="0,4,0,0">
+        <Button Content="Preview (roll)" Command="{Binding PreviewCommand}" Margin="0,0,6,4" />
+        <Button Content="Apply" Command="{Binding ApplyCommand}" IsEnabled="{Binding HasPlan}" Margin="0,0,6,4" />
+        <Button Content="Undo last spell" Command="{Binding UndoCommand}" IsEnabled="{Binding CanUndo}" Margin="0,0,0,4" />
+      </WrapPanel>
+
+      <Border BorderThickness="1" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" Padding="6" CornerRadius="4">
+        <TextBlock Text="{Binding PreviewText}" TextWrapping="Wrap" MinHeight="40" />
+      </Border>
+
+      <TextBlock Text="{Binding StatusText}" Opacity="0.75" TextWrapping="Wrap" />
+    </StackPanel>
+  </ScrollViewer>
+
+</UserControl>

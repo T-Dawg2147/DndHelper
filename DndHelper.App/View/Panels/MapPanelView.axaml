@@ -1,10 +1,86 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:DndHelper.App.ViewModels.Panels"
+             xmlns:c="using:DndHelper.App.Controls"
              x:Class="DndHelper.App.View.Panels.MapPanelView"
              x:DataType="vm:MapPanelViewModel">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6">
-        <TextBlock Text="Map" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" />
-        <TextBlock Text="Hex map will live here (M4)." Opacity="0.7" HorizontalAlignment="Center" />
+
+  <Grid RowDefinitions="Auto,*,Auto">
+
+    <StackPanel Grid.Row="0" Margin="8,8,8,4" Spacing="4">
+      <WrapPanel>
+        <TextBlock Text="Tool" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <ComboBox ItemsSource="{Binding Tools}" SelectedItem="{Binding SelectedTool}" Width="100" Margin="0,0,10,4" />
+        <TextBlock Text="Terrain" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <ComboBox ItemsSource="{Binding Terrains}" SelectedItem="{Binding SelectedTerrain}" Width="130" Margin="0,0,16,4" />
+
+        <TextBox Text="{Binding MapName}" Width="150" PlaceholderText="Map name" Margin="0,0,16,4" />
+
+        <NumericUpDown Value="{Binding NewRadius}" Minimum="1" Maximum="40" FormatString="0" Width="100" Margin="0,0,4,4" />
+        <Button Content="New hex map" Command="{Binding NewHexMapCommand}" Margin="0,0,10,4" />
+        <NumericUpDown Value="{Binding NewColumns}" Minimum="1" Maximum="80" FormatString="0" Width="100" Margin="0,0,4,4" />
+        <NumericUpDown Value="{Binding NewRows}" Minimum="1" Maximum="80" FormatString="0" Width="100" Margin="0,0,4,4" />
+        <Button Content="New rectangle" Command="{Binding NewRectangleMapCommand}" Margin="0,0,16,4" />
+
+        <Button Content="Save" Command="{Binding SaveCommand}" Margin="0,0,6,4" />
+        <Button Content="Open" Command="{Binding LoadCommand}" Margin="0,0,6,4" />
+        <Button Content="Fit view" Command="{Binding FitViewCommand}" Margin="0,0,6,4" />
+        <Button Content="Export image..." Click="ExportImage" Margin="0,0,0,4" />
+      </WrapPanel>
+      
+      <WrapPanel>
+        <TextBlock Text="Generate" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <ComboBox ItemsSource="{Binding Styles}" SelectedItem="{Binding SelectedStyle}" Width="120" Margin="0,0,6,4" />
+        <TextBlock Text="Seed" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <NumericUpDown Value="{Binding Seed}" Minimum="0" Maximum="2000000000" FormatString="0" Width="130" Margin="0,0,6,4" />
+        <Button Content="Generate (uses the columns and rows above)" Command="{Binding GenerateMapCommand}" Margin="0,0,6,4" />
+        <Button Content="Random seed" Command="{Binding RandomSeedCommand}" Margin="0,0,0,4" />
+      </WrapPanel>
+
+      <WrapPanel>
+        <TextBlock Text="Generate" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <ComboBox ItemsSource="{Binding Styles}" SelectedItem="{Binding SelectedStyle}" Width="120" Margin="0,0,6,4" />
+        <TextBlock Text="Seed" VerticalAlignment="Center" Margin="0,0,6,4" Opacity="0.7" />
+        <NumericUpDown Value="{Binding Seed}" Minimum="0" Maximum="2000000000" FormatString="0" Width="130" Margin="0,0,6,4" />
+        <Button Content="Generate (uses the columns and rows above)" Command="{Binding GenerateMapCommand}" Margin="0,0,6,4" />
+        <Button Content="Random seed" Command="{Binding RandomSeedCommand}" Margin="0,0,0,4" />
+      </WrapPanel>
+
+      <WrapPanel>
+        <TextBox Text="{Binding TokenName}" Width="150" PlaceholderText="Token name" Margin="0,0,6,4" />
+        <ComboBox ItemsSource="{Binding Teams}" SelectedItem="{Binding SelectedTeam}" Width="100" Margin="0,0,6,4" />
+        <Button Content="Add token" Command="{Binding AddTokenCommand}" Margin="0,0,16,4" />
+        <Button Content="Add selected creature" Command="{Binding AddCreatureTokenCommand}" Margin="0,0,6,4" />
+        <Button Content="Add selected character" Command="{Binding AddCharacterTokenCommand}" Margin="0,0,6,4" />
+        <Button Content="Place encounter combatants" Command="{Binding PlaceCombatantsCommand}" Margin="0,0,16,4"
+                ToolTip.Tip="Adds a token for every combatant in the Encounter Tracker, or links an existing token with the same name." />
+        <Button Content="Remove token" Command="{Binding RemoveTokenCommand}" Margin="0,0,6,4" />
+        <Button Content="Clear area" Command="{Binding ClearAreaCommand}" Margin="0,0,0,4" />
+      </WrapPanel>
     </StackPanel>
+
+    <Border Grid.Row="1" ClipToBounds="True" BorderThickness="0,1"
+            BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
+      <c:HexMapControl x:Name="MapControl"
+                       Map="{Binding Map}"
+                       Tokens="{Binding Tokens}"
+                       SelectedTokenId="{Binding SelectedTokenId}"
+                       Highlight="{Binding Highlight}"
+                       PathPreview="{Binding PathPreview}"
+                       AreaHexes="{Binding AreaHexes}"
+                       AreaOrigin="{Binding AreaOrigin}"
+                       Revision="{Binding Revision}"
+                       FitRequest="{Binding FitRequest}"
+                       HexPressedCommand="{Binding HexPressedCommand}"
+                       HexDraggedCommand="{Binding HexDraggedCommand}"
+                       HexHoveredCommand="{Binding HexHoveredCommand}" />
+    </Border>
+
+    <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Margin="8,4">
+      <TextBlock Grid.Column="0" Text="{Binding HoverText}" Opacity="0.85" />
+      <TextBlock Grid.Column="1" Text="{Binding StatusText}" Opacity="0.7" />
+    </Grid>
+
+  </Grid>
+
 </UserControl>

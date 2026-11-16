@@ -1,5 +1,6 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
+/// <summary>A copy of a combatant's changeable state, used for preview and undo.</summary>
 public sealed record CombatantSnapshot(
     int CurrentHp,
     int TempHp,

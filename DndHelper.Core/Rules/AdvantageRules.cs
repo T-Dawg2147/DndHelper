@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public sealed record AdvantageResult(RollMode Mode, IReadOnlyList<string> Reasons);
 

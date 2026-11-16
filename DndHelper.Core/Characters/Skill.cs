@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using DndHelper.Core.Rules;
 
 namespace DndHelper.Core.Characters;
@@ -17,6 +17,7 @@ public enum Skill
     Medicine,
     Nature,
     Perception,
+    Performance,
     Persuasion,
     Religion,
     SleightOfHand,

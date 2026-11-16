@@ -1,4 +1,4 @@
-﻿using DndHelper.Core.Characters;
+using DndHelper.Core.Characters;
 using DndHelper.Core.Models;
 
 namespace DndHelper.App.Messages;
@@ -21,3 +21,8 @@ public sealed record CharactersChangedMessage(string? SelectId = null);
 
 /// <summary>Open a creature in the Creature Editor. Downloaded creatures open as a copy; custom ones are edited in place.</summary>
 public sealed record EditCreatureMessage(Creature Creature);
+
+/// <summary>A line for the Battle Log panel.</summary>
+public sealed record BattleLogMessage(string Text);
+
+public sealed record ClearBattleLogMessage;

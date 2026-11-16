@@ -1,4 +1,4 @@
-﻿using DndHelper.Core.Rules;
+using DndHelper.Core.Rules;
 
 namespace DndHelper.Core.Characters;
 

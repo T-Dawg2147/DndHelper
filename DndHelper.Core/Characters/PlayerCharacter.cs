@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using DndHelper.Core.Rules;
 
 namespace DndHelper.Core.Characters;

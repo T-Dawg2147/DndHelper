@@ -1,7 +1,8 @@
-﻿using DndHelper.Core.Rules;
+using DndHelper.Core.Rules;
 
 namespace DndHelper.Core.Characters;
 
+/// <param name="AbilityOptions">The three abilities a background can raise (+2/+1 or +1/+1/+1).</param>
 public sealed record BackgroundDefinition(
     string Name,
     IReadOnlyList<Ability> AbilityOptions,
@@ -9,6 +10,7 @@ public sealed record BackgroundDefinition(
     string OriginFeat,
     string ToolProficiency);
 
+/// <summary>The four 2024 SRD backgrounds.</summary>
 public static class BackgroundCatalog
 {
     public static readonly IReadOnlyList<BackgroundDefinition> All =

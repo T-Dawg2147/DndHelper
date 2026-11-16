@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public enum Ability
 {
@@ -25,6 +25,7 @@ public static class AbilityExtensions
         _ => ability.ToString()
     };
 
+    /// <summary>Accepts a full name ("dexterity") or three-letter abbreviation ("DEX"), case-insensitive.</summary>
     public static bool TryParse(string? text, out Ability ability)
     {
         ability = default;
@@ -40,7 +41,6 @@ public static class AbilityExtensions
                 return true;
             }
         }
-
         return false;
     }
 }

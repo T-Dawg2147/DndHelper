@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public sealed record RecoveryResult(Combatant Target, CombatantSnapshot Before, int HpRestored, bool Revived, string Message)
 {

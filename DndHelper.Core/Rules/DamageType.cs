@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace DndHelper.Core.Rules;
 
@@ -9,7 +9,7 @@ public enum DamageType
     Cold,
     Fire,
     Force,
-    Lighting,
+    Lightning,
     Necrotic,
     Piercing,
     Poison,
@@ -24,6 +24,7 @@ public static class DamageTypeParser
     public static bool TryParse(string? text, out DamageType type)
         => Enum.TryParse(text?.Trim(), ignoreCase: true, out type) && Enum.IsDefined(type);
 
+    /// <summary>Finds every damage type named as a whole word anywhere in the text.</summary>
     public static IReadOnlyList<DamageType> FindAll(string? text)
     {
         if (string.IsNullOrWhiteSpace(text)) return [];

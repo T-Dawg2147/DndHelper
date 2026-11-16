@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 /// <summary>The planned outcome for one target. Nothing has been changed yet.</summary>
 public sealed record TargetResolution(

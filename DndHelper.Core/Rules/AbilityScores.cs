@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public sealed class AbilityScores
 {
@@ -36,6 +36,7 @@ public sealed class AbilityScores
         return copy;
     }
 
+    /// <summary>Builds scores from a dictionary keyed by ability name or abbreviation; missing abilities default to 10.</summary>
     public static AbilityScores FromDictionary(IReadOnlyDictionary<string, int> values)
     {
         var scores = new AbilityScores();
@@ -44,7 +45,6 @@ public sealed class AbilityScores
             if (AbilityExtensions.TryParse(key, out var ability))
                 scores[ability] = value;
         }
-
         return scores;
     }
 }

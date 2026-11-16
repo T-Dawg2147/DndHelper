@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,6 +7,7 @@ namespace DndHelper.Core.Rules;
 /// <summary>One group of identical dice, e.g. 8d6. Sign is -1 when the group is subtracted.</summary>
 public sealed record DiceTerm(int Count, int Sides, int Sign = 1);
 
+/// <summary>A parsed dice expression such as "8d6", "2d6+3" or "1d20-1d4+2".</summary>
 public sealed partial class DiceExpression
 {
     public const int MaxDiceCount = 100;
@@ -33,6 +34,7 @@ public sealed partial class DiceExpression
 
     public double Average => Terms.Sum(t => t.Sign * t.Count * (t.Sides + 1) / 2.0) + Modifier;
 
+    /// <summary>Critical hits roll all of the damage dice twice; flat modifiers are not doubled.</summary>
     public DiceExpression WithCriticalDice()
         => new(Terms.Select(t => t with { Count = t.Count * 2 }), Modifier);
 

@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 /// <summary>
 /// Applies damage in the 2024 order: immunity, then resistance (halved, rounded down), then vulnerability (doubled),

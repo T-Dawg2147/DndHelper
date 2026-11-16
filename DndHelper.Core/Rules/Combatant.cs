@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 /// <summary>A creature taking part in rules calculations (player character, NPC or monster) with its live combat state.</summary>
 public sealed class Combatant

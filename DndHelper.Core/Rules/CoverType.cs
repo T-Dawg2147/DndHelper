@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public enum CoverType
 {
@@ -17,6 +17,8 @@ public static class CoverExtensions
         _ => 0
     };
 
+    /// <summary>Cover also adds to Dexterity saving throws.</summary>
     public static int DexteritySaveBonus(this CoverType cover) => cover.ArmorClassBonus();
+
     public static bool CanBeTargeted(this CoverType cover) => cover != CoverType.Total;
 }

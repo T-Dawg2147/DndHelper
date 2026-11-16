@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 public sealed class SystemRandomSource : IRandomSource
 {
@@ -6,7 +6,7 @@ public sealed class SystemRandomSource : IRandomSource
 
     public SystemRandomSource() => _random = new Random();
 
-    public SystemRandomSource(int seed) => _random = new Random();
+    public SystemRandomSource(int seed) => _random = new Random(seed);
 
     public int Next(int minInclusive, int maxExclusive) => _random.Next(minInclusive, maxExclusive);
 }

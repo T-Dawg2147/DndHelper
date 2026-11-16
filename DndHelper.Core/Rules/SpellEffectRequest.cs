@@ -1,4 +1,4 @@
-﻿namespace DndHelper.Core.Rules;
+namespace DndHelper.Core.Rules;
 
 /// <summary>What a spell or area effect does, independent of who it hits.</summary>
 public sealed class SpellEffectRequest
