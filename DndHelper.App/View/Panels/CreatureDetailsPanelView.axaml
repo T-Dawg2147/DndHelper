@@ -1,4 +1,4 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:DndHelper.App.ViewModels.Panels"
              xmlns:models="using:DndHelper.Core.Models"
@@ -22,15 +22,15 @@
 
         <TextBlock>
           <Run Text="Armor Class" FontWeight="Bold" />
-          <Run Text="{Binding Creature.ArmorClassText}" />
+          <Run Text="{Binding Creature.ArmorClassText, Mode=OneWay}" />
         </TextBlock>
         <TextBlock>
           <Run Text="Hit Points" FontWeight="Bold" />
-          <Run Text="{Binding Creature.HitPointsText}" />
+          <Run Text="{Binding Creature.HitPointsText, Mode=OneWay}" />
         </TextBlock>
         <TextBlock>
           <Run Text="Challenge" FontWeight="Bold" />
-          <Run Text="{Binding Creature.ChallengeText}" />
+          <Run Text="{Binding Creature.ChallengeText, Mode=OneWay}" />
         </TextBlock>
 
         <Separator />
@@ -46,12 +46,12 @@
               <StackPanel HorizontalAlignment="Center">
                 <TextBlock Text="{Binding Abbreviation}" FontWeight="Bold" HorizontalAlignment="Center" />
                 <TextBlock HorizontalAlignment="Center">
-                  <Run Text="{Binding Score}" />
-                  <Run Text="{Binding Modifier, StringFormat='({0})'}" />
+                  <Run Text="{Binding Score, Mode=OneWay}" />
+                  <Run Text="{Binding Modifier, StringFormat='({0})', Mode=OneWay}" />
                 </TextBlock>
                 <TextBlock HorizontalAlignment="Center" FontSize="12" Opacity="0.75">
                   <Run Text="Save" />
-                  <Run Text="{Binding Save}" />
+                  <Run Text="{Binding Save, Mode=OneWay}" />
                 </TextBlock>
               </StackPanel>
             </DataTemplate>
@@ -64,8 +64,8 @@
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="models:LabelValue">
               <TextBlock TextWrapping="Wrap" Margin="0,1">
-                <Run Text="{Binding Label}" FontWeight="Bold" />
-                <Run Text="{Binding Value}" />
+                <Run Text="{Binding Label, Mode=OneWay}" FontWeight="Bold" />
+                <Run Text="{Binding Value, Mode=OneWay}" />
               </TextBlock>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
@@ -77,8 +77,8 @@
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="models:NamedEntry">
               <TextBlock TextWrapping="Wrap" Margin="0,3">
-                <Run Text="{Binding Name}" FontWeight="Bold" FontStyle="Italic" />
-                <Run Text="{Binding Description}" />
+                <Run Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" FontStyle="Italic" />
+                <Run Text="{Binding Description, Mode=OneWay}" />
               </TextBlock>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
@@ -93,8 +93,8 @@
                   <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="models:ActionEntry">
                       <TextBlock TextWrapping="Wrap" Margin="0,3">
-                        <Run Text="{Binding Name}" FontWeight="Bold" FontStyle="Italic" />
-                        <Run Text="{Binding Description}" />
+                        <Run Text="{Binding Name, Mode=OneWay}" FontWeight="Bold" FontStyle="Italic" />
+                        <Run Text="{Binding Description, Mode=OneWay}" />
                       </TextBlock>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>

@@ -26,5 +26,7 @@ public class ViewLocator : IDataTemplate
     }
 
     public bool Match(object? data)
-        => data?.GetType().Namespace?.StartsWith("DndHelper.App.ViewModels", StringComparison.Ordinal) == true;
+        => data?.GetType() is { } type
+           && type.Namespace?.StartsWith("DndHelper.App.ViewModels", StringComparison.Ordinal) == true
+           && type.Name.EndsWith("ViewModel", StringComparison.Ordinal);
 }

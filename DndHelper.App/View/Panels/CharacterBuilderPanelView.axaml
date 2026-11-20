@@ -114,8 +114,8 @@
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="models:LabelValue">
               <TextBlock TextWrapping="Wrap" Margin="0,2">
-                <Run Text="{Binding Label}" FontWeight="Bold" />
-                <Run Text="{Binding Value}" />
+                <Run Text="{Binding Label, Mode=OneWay}" FontWeight="Bold" />
+                <Run Text="{Binding Value, Mode=OneWay}" />
               </TextBlock>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
